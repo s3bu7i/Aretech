@@ -1,0 +1,22 @@
+meta {
+  name: getMemberTransaction
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/:memberId/transactions/:transactionId
+  body: none
+  auth: bearer
+}
+
+params:path {
+  memberId: 1
+  transactionId: 1
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}

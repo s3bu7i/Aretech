@@ -1,0 +1,1 @@
+export { imgRouter } from '@/routes/img/img.ts'

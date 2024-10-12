@@ -1,0 +1,31 @@
+meta {
+  name: patchMemberTransaction
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/:memberId/transactions/:transactionId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  memberId: 1
+  transactionId: 1
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}
+
+body:json {
+  {
+    "partnerRefId": "INV-20234",
+    "amount": 100,
+    "note": "This is a note about the transaction.",
+    "type": "PAYMENT"
+  }
+}

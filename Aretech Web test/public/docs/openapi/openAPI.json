@@ -1,0 +1,1650 @@
+{
+  "openapi": "3.0.0",
+  "servers": [{ "url": "https://paywithpretendpointsapi.onrender.com" }],
+  "info": { "version": "1.0.0", "title": "Pay With Pretend Points API" },
+  "components": {
+    "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
+    "schemas": {
+      "Partner": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+          "description": { "type": "string", "pattern": "^[\\w\\s.,!?'\"()-]+$", "example": "Partner Description" },
+          "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+          "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+          "email": { "type": "string", "format": "email", "example": "example@email.com" },
+          "password": { "type": "string", "example": "*********" },
+          "status": {
+            "type": "string",
+            "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+            "default": "ACTIVE",
+            "example": "ACTIVE"
+          },
+          "permission": {
+            "type": "string",
+            "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+            "default": "WRITE",
+            "example": "WRITE"
+          },
+          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+        },
+        "required": ["id", "name", "description", "address", "phone", "email", "password", "createdAt", "updatedAt"]
+      },
+      "Member": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+          "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+          "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+          "email": { "type": "string", "format": "email", "example": "member@example.com" },
+          "balance": { "type": "integer", "example": 1000 },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+            "default": "PENDING",
+            "example": "PENDING"
+          },
+          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+        },
+        "required": ["id", "partnerId", "name", "address", "phone", "email", "balance", "createdAt", "updatedAt"]
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+          "partnerRefId": { "type": "string", "pattern": "^[\\w\\s.,!?'\"()-]+$", "example": "INV-20234" },
+          "reference": { "type": "string", "format": "uuid", "example": "123e4567-e89b-12d3-a456-426614174001" },
+          "amount": { "type": "integer", "example": 100 },
+          "note": {
+            "type": "string",
+            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+            "example": "This is a note about the transaction."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "COMPLETED", "VOIDED"],
+            "default": "PENDING",
+            "example": "PENDING"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+            "default": "PAYMENT",
+            "example": "PAYMENT"
+          },
+          "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+        },
+        "required": ["id", "partnerId", "memberId", "reference", "amount", "transactedAt", "createdAt", "updatedAt"]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": ["Status"],
+        "summary": "Check the health of the database.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "SUCCESS" },
+                    "message": { "type": "string", "example": "Database Healthy" },
+                    "error": {
+                      "anyOf": [
+                        { "nullable": true },
+                        { "type": "boolean" },
+                        { "type": "object", "properties": {} },
+                        { "type": "string" },
+                        { "nullable": true }
+                      ],
+                      "examples": [null, {}]
+                    }
+                  },
+                  "required": ["status", "message", "error"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/auth": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login as a partner.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                  "password": { "type": "string", "example": "*********" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "accessToken": { "type": "string", "example": "JWT Token" } },
+                  "required": ["accessToken"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/admin-auth": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login as an administrator.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                  "password": { "type": "string", "example": "*********" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "accessToken": { "type": "string", "example": "JWT Token" } },
+                  "required": ["accessToken"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/{memberId}/points": {
+      "get": {
+        "tags": ["Points"],
+        "summary": "Get the points balance for a specific member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "balance": { "type": "integer", "example": 1000 } },
+                  "required": ["balance"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/partners/{partnerId}/transactions/{transactionId}": {
+      "get": {
+        "tags": ["Partner Transactions"],
+        "summary": "Get a specific transaction for a partner.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          },
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "transactionId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerRefId": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "INV-20234"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174001"
+                        },
+                        "amount": { "type": "integer", "example": 100 },
+                        "note": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "This is a note about the transaction."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                          "default": "PAYMENT",
+                          "example": "PAYMENT"
+                        },
+                        "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "memberId",
+                        "reference",
+                        "amount",
+                        "transactedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["transaction"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/partners/{partnerId}/transactions": {
+      "get": {
+        "tags": ["Partner Transactions"],
+        "summary": "Get transactions for a partner.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "partnerRefId": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                            "example": "INV-20234"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174001"
+                          },
+                          "amount": { "type": "integer", "example": 100 },
+                          "note": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                            "example": "This is a note about the transaction."
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                            "default": "PENDING",
+                            "example": "PENDING"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                            "default": "PAYMENT",
+                            "example": "PAYMENT"
+                          },
+                          "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                        },
+                        "required": [
+                          "id",
+                          "partnerId",
+                          "memberId",
+                          "reference",
+                          "amount",
+                          "transactedAt",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["transactions"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/{memberId}/transactions/{transactionId}": {
+      "get": {
+        "tags": ["Member Transactions"],
+        "summary": "Get a specific transaction for a member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          },
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "transactionId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerRefId": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "INV-20234"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174001"
+                        },
+                        "amount": { "type": "integer", "example": 100 },
+                        "note": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "This is a note about the transaction."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                          "default": "PAYMENT",
+                          "example": "PAYMENT"
+                        },
+                        "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "memberId",
+                        "reference",
+                        "amount",
+                        "transactedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["transaction"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "patch": {
+        "tags": ["Member Transactions"],
+        "summary": "Update a specific transaction for a member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          },
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "transactionId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "partnerRefId": { "type": "string", "pattern": "^[\\w\\s.,!?'\"()-]+$", "example": "INV-20234" },
+                  "amount": { "type": "integer", "example": 100 },
+                  "note": {
+                    "type": "string",
+                    "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                    "example": "This is a note about the transaction."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                    "default": "PENDING",
+                    "example": "PENDING"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                    "default": "PAYMENT",
+                    "example": "PAYMENT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerRefId": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "INV-20234"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174001"
+                        },
+                        "amount": { "type": "integer", "example": 100 },
+                        "note": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "This is a note about the transaction."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                          "default": "PAYMENT",
+                          "example": "PAYMENT"
+                        },
+                        "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "memberId",
+                        "reference",
+                        "amount",
+                        "transactedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["transaction"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "delete": {
+        "tags": ["Member Transactions"],
+        "summary": "Reverses a transaction for a member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          },
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "transactionId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "count": { "type": "integer", "example": 1 } },
+                  "required": ["count"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/{memberId}/transactions": {
+      "get": {
+        "tags": ["Member Transactions"],
+        "summary": "Get all transactions for a member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "partnerRefId": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                            "example": "INV-20234"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "format": "uuid",
+                            "example": "123e4567-e89b-12d3-a456-426614174001"
+                          },
+                          "amount": { "type": "integer", "example": 100 },
+                          "note": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                            "example": "This is a note about the transaction."
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                            "default": "PENDING",
+                            "example": "PENDING"
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                            "default": "PAYMENT",
+                            "example": "PAYMENT"
+                          },
+                          "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                        },
+                        "required": [
+                          "id",
+                          "partnerId",
+                          "memberId",
+                          "reference",
+                          "amount",
+                          "transactedAt",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["transactions"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "post": {
+        "tags": ["Member Transactions"],
+        "summary": "Create a new transaction for a member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "partnerRefId": { "type": "string", "pattern": "^[\\w\\s.,!?'\"()-]+$", "example": "INV-20234" },
+                  "amount": { "type": "integer", "example": 100 },
+                  "note": {
+                    "type": "string",
+                    "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                    "example": "This is a note about the transaction."
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                    "default": "PAYMENT",
+                    "example": "PAYMENT"
+                  }
+                },
+                "required": ["amount"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "memberId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerRefId": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "INV-20234"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174001"
+                        },
+                        "amount": { "type": "integer", "example": 100 },
+                        "note": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "This is a note about the transaction."
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "COMPLETED", "VOIDED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": ["PAYMENT", "REFUND", "INTERNAL"],
+                          "default": "PAYMENT",
+                          "example": "PAYMENT"
+                        },
+                        "transactedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "memberId",
+                        "reference",
+                        "amount",
+                        "transactedAt",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["transaction"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/members/{memberId}": {
+      "get": {
+        "tags": ["Member Operations"],
+        "summary": "Get a specific member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "member": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                        "balance": { "type": "integer", "example": 1000 },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "name",
+                        "address",
+                        "phone",
+                        "email",
+                        "balance",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["member"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "patch": {
+        "tags": ["Member Operations"],
+        "summary": "Update a specific member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                  "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+                  "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                  "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                  "balance": { "type": "integer", "example": 1000 },
+                  "status": {
+                    "type": "string",
+                    "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+                    "default": "PENDING",
+                    "example": "PENDING"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "member": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                        "balance": { "type": "integer", "example": 1000 },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "name",
+                        "address",
+                        "phone",
+                        "email",
+                        "balance",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["member"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "delete": {
+        "tags": ["Member Operations"],
+        "summary": "Delete a specific member.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "count": { "type": "integer", "example": 1 } },
+                  "required": ["count"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/members": {
+      "get": {
+        "tags": ["Member Operations"],
+        "summary": "Get all members.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "memberId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "members": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                          "address": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,-]+$",
+                            "example": "123 Main St, Toronto, ON"
+                          },
+                          "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                          "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                          "balance": { "type": "integer", "example": 1000 },
+                          "status": {
+                            "type": "string",
+                            "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+                            "default": "PENDING",
+                            "example": "PENDING"
+                          },
+                          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                        },
+                        "required": [
+                          "id",
+                          "partnerId",
+                          "name",
+                          "address",
+                          "phone",
+                          "email",
+                          "balance",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["members"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "post": {
+        "tags": ["Member Operations"],
+        "summary": "Create a new member.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                  "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+                  "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                  "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                  "balance": { "type": "integer", "example": 1000 }
+                },
+                "required": ["name", "address", "phone", "email", "balance"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "member": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "partnerId": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "John Doe" },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "member@example.com" },
+                        "balance": { "type": "integer", "example": 1000 },
+                        "status": {
+                          "type": "string",
+                          "enum": ["PENDING", "ACTIVE", "DEACTIVATED"],
+                          "default": "PENDING",
+                          "example": "PENDING"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "partnerId",
+                        "name",
+                        "address",
+                        "phone",
+                        "email",
+                        "balance",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["member"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/partners/{partnerId}": {
+      "get": {
+        "tags": ["Partner Operations (Admin)"],
+        "summary": "Get a specific partner.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partner": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                        "description": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "Partner Description"
+                        },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                        "password": { "type": "string", "example": "*********" },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                          "default": "ACTIVE",
+                          "example": "ACTIVE"
+                        },
+                        "permission": {
+                          "type": "string",
+                          "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+                          "default": "WRITE",
+                          "example": "WRITE"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "address",
+                        "phone",
+                        "email",
+                        "password",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["partner"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "patch": {
+        "tags": ["Partner Operations (Admin)"],
+        "summary": "Update a specific partner.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                  "description": {
+                    "type": "string",
+                    "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                    "example": "Partner Description"
+                  },
+                  "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+                  "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                  "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                  "password": { "type": "string", "example": "*********" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                    "default": "ACTIVE",
+                    "example": "ACTIVE"
+                  },
+                  "permission": {
+                    "type": "string",
+                    "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+                    "default": "WRITE",
+                    "example": "WRITE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partner": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                        "description": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "Partner Description"
+                        },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                        "password": { "type": "string", "example": "*********" },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                          "default": "ACTIVE",
+                          "example": "ACTIVE"
+                        },
+                        "permission": {
+                          "type": "string",
+                          "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+                          "default": "WRITE",
+                          "example": "WRITE"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "address",
+                        "phone",
+                        "email",
+                        "password",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["partner"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "delete": {
+        "tags": ["Partner Operations (Admin)"],
+        "summary": "Delete a specific partner.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "count": { "type": "integer", "example": 1 } },
+                  "required": ["count"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    },
+    "/api/v1/loyalty/partners": {
+      "get": {
+        "tags": ["Partner Operations (Admin)"],
+        "summary": "Get all partners.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "schema": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+            "required": true,
+            "name": "partnerId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partners": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                          "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                          "description": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                            "example": "Partner Description"
+                          },
+                          "address": {
+                            "type": "string",
+                            "pattern": "^[\\w\\s.,-]+$",
+                            "example": "123 Main St, Toronto, ON"
+                          },
+                          "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                          "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                          "password": { "type": "string", "example": "*********" },
+                          "status": {
+                            "type": "string",
+                            "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                            "default": "ACTIVE",
+                            "example": "ACTIVE"
+                          },
+                          "permission": {
+                            "type": "string",
+                            "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+                            "default": "WRITE",
+                            "example": "WRITE"
+                          },
+                          "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                          "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "description",
+                          "address",
+                          "phone",
+                          "email",
+                          "password",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["partners"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      },
+      "post": {
+        "tags": ["Partner Operations (Admin)"],
+        "summary": "Create a new partner.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                  "description": {
+                    "type": "string",
+                    "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                    "example": "Partner Description"
+                  },
+                  "address": { "type": "string", "pattern": "^[\\w\\s.,-]+$", "example": "123 Main St, Toronto, ON" },
+                  "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                  "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                  "password": { "type": "string", "example": "*********" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                    "default": "ACTIVE",
+                    "example": "ACTIVE"
+                  }
+                },
+                "required": ["name", "description", "address", "phone", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "partner": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "integer", "minimum": 0, "exclusiveMinimum": true, "example": 1 },
+                        "name": { "type": "string", "pattern": "^[\\w\\s]+$", "example": "Partner Name" },
+                        "description": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,!?'\"()-]+$",
+                          "example": "Partner Description"
+                        },
+                        "address": {
+                          "type": "string",
+                          "pattern": "^[\\w\\s.,-]+$",
+                          "example": "123 Main St, Toronto, ON"
+                        },
+                        "phone": { "type": "string", "pattern": "^[\\w\\s.()-]+$", "example": "4161234567" },
+                        "email": { "type": "string", "format": "email", "example": "example@email.com" },
+                        "password": { "type": "string", "example": "*********" },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "TERMINATED", "UNAVAILABLE"],
+                          "default": "ACTIVE",
+                          "example": "ACTIVE"
+                        },
+                        "permission": {
+                          "type": "string",
+                          "enum": ["WRITE", "READ", "BALANCE_INQUIRY"],
+                          "default": "WRITE",
+                          "example": "WRITE"
+                        },
+                        "createdAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" },
+                        "updatedAt": { "type": "string", "example": "2024-09-01T01:03:43.004Z" }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "description",
+                        "address",
+                        "phone",
+                        "email",
+                        "password",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": ["partner"]
+                }
+              }
+            }
+          },
+          "204": { "description": "No Content" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" },
+          "503": { "description": "Service Unavailable" }
+        }
+      }
+    }
+  }
+}

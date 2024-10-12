@@ -1,0 +1,1 @@
+export { rewardsRouter } from '@/routes/rewards/rewards.ts'

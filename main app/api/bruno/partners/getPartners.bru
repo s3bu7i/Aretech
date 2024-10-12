@@ -1,0 +1,17 @@
+meta {
+  name: getPartners
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/partners
+  body: none
+  auth: bearer
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}

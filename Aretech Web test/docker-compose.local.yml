@@ -1,0 +1,34 @@
+services:
+  api:
+    container_name: points-api
+    build:
+      dockerfile: Dockerfile.local
+      context: .
+    volumes:
+      - api-data:/api-data
+      - /app/node_modules
+      - ./:/app
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - database
+  database:
+    container_name: points-db
+    image: postgres:16.4-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+volumes:
+  db-data:
+  api-data:

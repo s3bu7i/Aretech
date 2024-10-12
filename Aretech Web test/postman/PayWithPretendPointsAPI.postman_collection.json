@@ -1,0 +1,701 @@
+{
+  "info": {
+    "_postman_id": "311a5611-f114-4713-9770-6944da2bb4d3",
+    "name": "PayWithPretendPointsAPI",
+    "description": "See [https://github.com/HackTheNorth-FakeWithPoints/PayWithPretendPointsAPI](https://github.com/HackTheNorth-FakeWithPoints/PayWithPretendPointsAPI) for details.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31702119"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "/api/v1/admin-auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.environment.set('ADMIN_JWT_TOKEN', pm.response.json().accessToken)\r", ""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{ADMIN_EMAIL}}\",\r\n    \"password\": \"{{ADMIN_PASSWORD}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/admin-auth",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "admin-auth"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.environment.set('PARTNER_JWT_TOKEN', pm.response.json().accessToken)\r", ""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{PARTNER_EMAIL}}\",\r\n    \"password\": \"{{PARTNER_PASSWORD}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/auth",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "auth"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "item": [
+        {
+          "name": "/api/v1/health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "partners",
+      "item": [
+        {
+          "name": "/api/v1/loyalty/partners",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/partners/:partnerId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners/:partnerId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners", ":partnerId"],
+              "variable": [
+                {
+                  "key": "partnerId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/partners",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Partner Name\",\r\n    \"description\": \"Partner Description\",\r\n    \"address\": \"123 Main St, City Town\",\r\n    \"phone\": \"(000)-000-0000\",\r\n    \"email\": \"{{PARTNER_EMAIL}}\",\r\n    \"password\": \"{{PARTNER_PASSWORD_HASHED}}\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/partners/:partnerId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Partner Name\",\r\n    \"description\": \"Partner Description\",\r\n    \"address\": \"123 Main St, City Town\",\r\n    \"phone\": \"(000)-000-0000\",\r\n    \"email\": \"{{PARTNER_EMAIL}}\",\r\n    \"password\": \"{{PARTNER_PASSWORD}}\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners/:partnerId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners", ":partnerId"],
+              "variable": [
+                {
+                  "key": "partnerId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/partners/:partnerId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{ADMIN_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners/:partnerId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners", ":partnerId"],
+              "variable": [
+                {
+                  "key": "partnerId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "members",
+      "item": [
+        {
+          "name": "/api/v1/loyalty/members",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/members",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "members"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/members/:memberId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/members/:memberId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "members", ":memberId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/members",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"address\": \"123 Main St, City Town\",\r\n    \"phone\": \"(000)-000-0000\",\r\n    \"email\": \"example@example.com\",\r\n    \"balance\": 1000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/members",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "members"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/members/:memberId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"John Doe\",\r\n    \"address\": \"123 Main St, City Town\",\r\n    \"phone\": \"(000)-000-0000\",\r\n    \"balance\": 1000,\r\n    \"email\": \"example@example.com\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/members/:memberId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "members", ":memberId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/members/:memberId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/members/:memberId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "members", ":memberId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "member-transactions",
+      "item": [
+        {
+          "name": "/api/v1/loyalty/:memberId/transactions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/transactions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "transactions"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/:memberId/transactions/:transactionId Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/transactions/:transactionId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "transactions", ":transactionId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                },
+                {
+                  "key": "transactionId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/:memberId/transactions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"partnerRefId\": \"INV-20234\",\r\n    \"amount\": 100,\r\n    \"note\": \"This is a note about the member transaction.\",\r\n    \"type\": \"PAYMENT\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/transactions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "transactions"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/:memberId/transactions/:transactionId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"partnerRefId\": \"INV-20234\",\r\n    \"amount\": 10,\r\n    \"note\": \"This is a note about the transaction.\",\r\n    \"status\": \"COMPLETED\",\r\n    \"type\": \"PAYMENT\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/transactions/:transactionId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "transactions", ":transactionId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                },
+                {
+                  "key": "transactionId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/:memberId/transactions/:transactionId Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/transactions/:transactionId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "transactions", ":transactionId"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                },
+                {
+                  "key": "transactionId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "partner-transactions",
+      "item": [
+        {
+          "name": "/api/v1/loyalty/partners/:partnerId/transactions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners/:partnerId/transactions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners", ":partnerId", "transactions"],
+              "variable": [
+                {
+                  "key": "partnerId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/api/v1/loyalty/partners/:partnerId/transactions/:transactionId",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/partners/:partnerId/transactions/:transactionId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", "partners", ":partnerId", "transactions", ":transactionId"],
+              "variable": [
+                {
+                  "key": "partnerId",
+                  "value": ""
+                },
+                {
+                  "key": "transactionId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "points",
+      "item": [
+        {
+          "name": "/api/v1/loyalty/:memberId/points",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{PARTNER_JWT_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/{{ROUTE_PREFIX}}/loyalty/:memberId/points",
+              "host": ["{{BASE_URL}}"],
+              "path": ["{{ROUTE_PREFIX}}", "loyalty", ":memberId", "points"],
+              "variable": [
+                {
+                  "key": "memberId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

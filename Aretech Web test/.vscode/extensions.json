@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "christian-kohler.npm-intellisense",
+    "bruno-api-client.bruno",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "irongeek.vscode-env",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode.vscode-typescript-next",
+    "pkief.material-icon-theme",
+    "pomdtr.excalidraw-editor",
+    "redhat.vscode-yaml",
+    "rvest.vs-code-prettier-eslint",
+    "sonarsource.sonarlint-vscode"
+  ]
+}

@@ -1,0 +1,23 @@
+meta {
+  name: postAdminAuth
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/{{routePrefix}}/admin-auth
+  body: json
+  auth: none
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}"
+  }
+}

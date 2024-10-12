@@ -1,0 +1,29 @@
+meta {
+  name: postPartner
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/partners
+  body: json
+  auth: bearer
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}
+
+body:json {
+  {
+    "name": "Partner Name",
+    "description": "Partner Description",
+    "address": "123 Main St, Toronto, ON",
+    "phone": "4161234567",
+    "email": "example@email.com",
+    "password": "*********",
+    "status": "ACTIVE"
+  }
+}

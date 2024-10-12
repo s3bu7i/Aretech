@@ -1,0 +1,21 @@
+meta {
+  name: getPartnerTransactions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/partners/:partnerId/transactions
+  body: none
+  auth: bearer
+}
+
+params:path {
+  partnerId: 1
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}

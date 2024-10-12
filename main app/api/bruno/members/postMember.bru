@@ -1,0 +1,27 @@
+meta {
+  name: postMember
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/{{routePrefix}}/loyalty/members
+  body: json
+  auth: bearer
+}
+
+headers {
+  accept: application/json
+  Content-Type: application/json
+  Authorization: Bearer
+}
+
+body:json {
+  {
+    "name": "John Doe",
+    "address": "123 Main St, Toronto, ON",
+    "phone": "4161234567",
+    "email": "member@example.com",
+    "balance": 1000
+  }
+}
