@@ -1,7 +1,0 @@
-const MEMBER_STATUS = {
-  PENDING: 'PENDING',
-  ACTIVE: 'ACTIVE',
-  DEACTIVATED: 'DEACTIVATED'
-} as const
-
-export { MEMBER_STATUS }
