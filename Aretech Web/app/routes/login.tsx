@@ -56,18 +56,18 @@ export default function AuthForm() {
       },
     });
 
-    if (response.ok) {
-      const token = (await response.json()).token;
-      localStorage.setItem('accessToken', token);
-      const decoded = jwtDecode(token);
-      console.log("decoded", decoded);
-      // @ts-ignore
-      setBal(decoded.balance);
-      toast.success('Logged in successfully!');
-      navigate('/');
-    } else {
-      toast.error("An error occurred.");
-    }
+    // if (response.ok) {
+    //   const token = (await response.json()).token;
+    //   localStorage.setItem('accessToken', token);
+    //   const decoded = jwtDecode(token);
+    //   console.log("decoded", decoded);
+    //   // @ts-ignore
+    //   setBal(decoded.balance);
+    //   toast.success('Logged in successfully!');
+    //   navigate('/');
+    // } else {
+    //   toast.error("An error occurred.");
+    // }
     setIsLoading(false);
   };
 
