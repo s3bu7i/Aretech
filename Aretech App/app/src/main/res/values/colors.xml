@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFFFF</color>
+    <color name="colorPrimaryDark">#DCDCDC</color>
+    <color name="colorPrimaryDark2">#F3F3F3</color>
+    <color name="colorView">#E7E4E4</color>
+    <color name="colorAccent">#FFBB86FC</color>
+    <color name="colorTextPrimary">#FF000000</color>
+    <color name="colorTextSecondary">#FFFFFFFF</color>
+    <color name="colorLogo">#25D366</color>
+    <color name="color_dialog_components">#221f35</color>
+    <color name="colorFilterBackground">#84F08F</color>
+
+    <color name="colorLogobefore">#339967</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorBlue">#061FFC</color>
+    <color name="colorBlueLight">#7884F1</color>
+    <color name="colorBlueLight_30">#4D7884F1</color>
+    <color name="orange">#E91E63</color>
+    <color name="orange_30">#4DE91E63</color>
+
+    <color name="colorLogo_100">#b5f7d7</color>
+    <color name="colorLogo_white_70">#8cd9b4</color>
+    <color name="colorLogo_white_65">#79d2a7</color>
+    <color name="colorLogo_white_60">#66cc9b</color>
+    <color name="colorLogo_white_55">#53c68e</color>
+    <color name="colorLogo_white_50">#40bf82</color>
+    <color name="colorLogo_white_45">#39ac75</color>
+
+    <color name="colorBorderOperation">#CCEDD0</color>
+    <color name="colorBorderOrderDetails">#C4CDE0</color>
+
+    <color name="colorHomePageBackground">#f7f7f7</color>
+    <color name="colorGrey">#DCDCDC</color>
+    <color name="colorGreyBlood">#707070</color>
+
+    <color name="colorTextInputBackground">#F7F7F7</color>
+    <color name="colorBackground">#fff</color>
+    <color name="round_button_color">#D3D3D3</color>
+
+
+    <color name="black">#FF000000</color>
+    <color name="black_30">#4D000000</color>
+    <color name="blackLight">#B3000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white0">#00FFFFFF</color>
+
+    <color name="colorMain">#25D366</color>
+    <color name="colorOrange">#FEA800</color>
+
+<!-- Color for operations icons-->
+    <color name="orangeLight">#fbe7cc</color>
+    <color name="orangeDark">#dd672e</color>
+
+    <color name="violetLight">#eae8fd</color>
+    <color name="violetDark">#4e38aa</color>
+    <color name="violetDarkProgress">#973758</color>
+
+    <color name="waterBlueLight">#e9f4fa</color>
+    <color name="waterBlueDark">#1d647e</color>
+
+    <color name="redDark">#e53537</color>
+    <color name="icon_colors">#353535</color>
+    <color name="disabled_checkbox_button_colors">#313CD375</color>
+    <color name="ic_my_location_tint">#1E1360</color>
+
+    <color name="dark_blue">#221f35</color>
+    <color name="dark_blueLight">#4D221F35</color>
+    <color name="dark_yellow">#FFC107</color>
+
+    <color name="table_colors">#eaf8e6</color>
+    <color name="report_table_header_background">#57b846</color>
+    <color name="report_table_touch_background">#83d160</color>
+    <color name="white_40">#FFFFFF</color>
+    <color name="green_50">#D6EBCD</color>
+    <color name="appreciate_divider_color">#D9D9D9</color>
+    <color name="stroke_doctype">#C4CDE0</color>
+<!--    new -->
+    <color name="primary">#E6F8EF</color>
+    <color name="text_color">#BFBFBF</color>
+    <color name="grey_scale">#252526</color>
+    <color name="main_green">#00BD60</color>
+    <color name="strokeColor">#CBCCCC</color>
+    <color name="grey_scale_900">#1E1E1E</color>
+    <color name="grey_scale_500">#58595B</color>
+    <color name="primary_500">#00BD60</color>
+    <color name="primary_500_50">#80E6F8EF</color>
+    <color name="grey_scale_200">#B2B3B4</color>
+    <color name="grey_scale_50">#EEEEEF</color>
+    <color name="grey_scale_50_50">#80EEEEEF</color>
+    <color name="grey_scale_300">#8F9091</color>
+    <color name="grey_scale_100">#CBCCCC</color>
+    <color name="grey_scale_50_30">#4DEEEEEF</color>
+    <color name="primary_200">#8AE1B6</color>
+    <color name="tint_color">#292D32</color>
+    <color name="primary_50">#E6F8EF</color>
+    <color name="primary_50_50">#80E6F8EF</color>
+    <color name="divider_color">#303030</color>
+    <color name="divider_color_stroke">#979797</color>
+    <color name="error_50_50">#80FEECEC</color>
+    <color name="error_50">#FEECEC</color>
+    <color name="error_500">#F34141</color>
+    <color name="error_500_70">#B3F34141</color>
+    <color name="warning_500">#E9A23B</color>
+    <color name="warning_500_30">#FFEB3B</color>
+    <color name="info_500">#2563EB</color>
+    <color name="black_5">#0D000000</color>
+    <color name="text_color_header">#343A40</color>
+    <color name="divider_background">#EAEAEA</color>
+    <color name="divider_stroke">#DFDFDF</color>
+   <color name="status_divider">#1A333333</color>
+    <color name="color_white">#F1F1F1</color>
+</resources>

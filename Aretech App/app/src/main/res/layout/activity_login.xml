@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.activities.login.ActivityLogin">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/primary"
+        app:cardCornerRadius="30dp"
+        app:strokeWidth="0dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="-100dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="130dp"
+            android:gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="131dp"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                android:layout_marginBottom="25dp"
+                android:src="@drawable/app_logo"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Aretech mobile application"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="28sp"
+                android:textFontWeight="500"
+                android:fontFamily="@font/sf_pro_medium"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="400"
+                android:fontFamily="@font/font"
+                android:textAlignment="center"
+                android:text="You can continue by Logging in"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/version_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textFontWeight="400"
+                android:fontFamily="@font/font"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:textColor="@color/primary_500"
+                android:layout_marginBottom="55dp"
+                android:text="Version:4.5.6"
+                android:textSize="13sp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            android:paddingTop="1dp"
+            android:layout_marginBottom="30dp"
+            android:hint="@string/hint_username"
+            android:background="@drawable/edittext_background_selector"
+            android:inputType="text"
+            android:theme="@style/TextInputLayoutAppearance"
+            android:layout_marginHorizontal="24dp"
+            app:hintTextColor="@color/grey_scale_900"
+            app:endIconTint="@color/grey_scale_500"
+            android:textCursorDrawable="@drawable/edittxt_cursor"
+            app:boxBackgroundMode="none" >
+        <EditText
+            android:id="@+id/txt_username"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:cursorVisible="true"
+            android:gravity="center_vertical"
+            android:textColorHint="@color/grey_scale_900"
+            android:fontFamily="@font/font"
+            android:textSize="14sp"
+            android:autoSizeMaxTextSize="14sp"
+            android:paddingTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:singleLine="true"
+            android:inputType="text"
+            android:labelFor="@string/hint_password"
+            android:textCursorDrawable="@drawable/edittxt_cursor"
+            android:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:background="@drawable/edittext_background_selector"
+            android:layout_marginBottom="30dp"
+            android:hint="@string/hint_password"
+            app:endIconMode="password_toggle"
+            app:passwordToggleTintMode="multiply"
+            android:inputType="textPassword"
+            app:hintTextColor="@color/grey_scale_900"
+            app:endIconDrawable="@drawable/passwordseen_icon"
+            android:labelFor="@string/hint_username"
+            app:endIconTint="@color/grey_scale_500"
+            android:theme="@style/TextInputLayoutAppearance"
+            android:textCursorDrawable="@drawable/edittxt_cursor"
+            app:boxBackgroundMode="none" >
+            <EditText
+                android:id="@+id/txt_password"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_gravity="center_vertical"
+                android:cursorVisible="true"
+                android:textColorHint="@color/grey_scale_900"
+                android:fontFamily="@font/font"
+                android:textSize="14sp"
+                android:autoSizeMaxTextSize="14sp"
+                android:paddingTop="5dp"
+                android:layout_marginBottom="9dp"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:textCursorDrawable="@drawable/edittxt_cursor"
+                android:background="@null" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/progress_login"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:indeterminate="false"
+                    android:theme="@style/progressbar" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/button_sign_in"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/sf_pro_display"
+                    android:textColor="@color/white"
+                    android:textFontWeight="500"
+                    android:background="@drawable/btn_style_corner_round_black" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:fontFamily="@font/sf_pro_medium"
+                android:textFontWeight="500"
+                android:textColor="@color/primary_500"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

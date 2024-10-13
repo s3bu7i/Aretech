@@ -1,0 +1,55 @@
+Index: app/src/main/res/layout/cnb_horizontal_menu_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/cnb_horizontal_menu_item.xml b/app/src/main/res/layout/cnb_horizontal_menu_item.xml
+new file mode 100644
+--- /dev/null	(date 1726496139101)
++++ b/app/src/main/res/layout/cnb_horizontal_menu_item.xml	(date 1726496139101)
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merge xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    tools:layout_height="wrap_content"
++    tools:layout_width="wrap_content"
++    tools:parentTag="android.widget.FrameLayout">
++
++    <LinearLayout
++        android:id="@+id/cbn_item_internal_container"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_gravity="center"
++        android:duplicateParentState="true"
++        android:gravity="start"
++        android:orientation="horizontal"
++        android:paddingStart="@dimen/cnb_space_3"
++        android:paddingTop="@dimen/cnb_space_1"
++        android:paddingEnd="@dimen/cnb_space_3"
++        android:paddingBottom="@dimen/cnb_space_1"
++        tools:background="#000">
++
++        <com.example.tindamobilesale.ui.chipnavigation.view.BadgeImageView
++            android:id="@+id/cnb_item_icon"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="center_vertical|start"
++            android:duplicateParentState="true"
++            tools:src="@android:drawable/btn_star_big_off" />
++
++        <TextView
++            android:id="@+id/cbn_item_title"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="center"
++            android:layout_marginStart="@dimen/cnb_space_1"
++            android:duplicateParentState="true"
++            android:singleLine="true"
++            android:visibility="gone"
++            tools:text="Discover"
++            tools:textColor="#FFF"
++            tools:visibility="visible" />
++
++    </LinearLayout>
++
++</merge>

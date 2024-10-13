@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_home"
+        app:cnb_iconColor="@color/primary_500"
+        android:title="@string/Check"
+        android:icon="@drawable/ic_menu_home_24"/>
+    <item
+        android:id="@+id/nav_history"
+        app:cnb_iconColor="@color/primary_500"
+        android:title="Keçmiş"
+        android:icon="@drawable/baseline_history_24"/>
+    <item
+        android:id="@+id/nav_operation"
+        app:cnb_iconColor="@color/primary_500"
+        android:title="@string/scan"
+        android:icon="@drawable/ic_doc_scan"/>
+    <item
+        android:id="@+id/nav_setting"
+        app:cnb_iconColor="@color/primary_500"
+        android:title="@string/settings_nav"
+        android:icon="@drawable/ic_menu_settings_24"/>
+</menu>

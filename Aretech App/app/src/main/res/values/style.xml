@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="AppTheme.RightRoundedButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/button_right_rounded</item>
+    </style>
+    <style name="AppTheme.LeftRoundedButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/button_left_rounded</item>
+    </style>
+
+    <style name="button_signin" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/btn_style_corner_round_black</item>
+        <item name="android:minWidth">200dp</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="TextButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="progressbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/primary_500</item>
+    </style>
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
+    <style name="Material" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorLogo</item>
+        <item name="colorPrimaryDark">@color/colorLogo</item>
+        <item name="colorAccent">@color/colorLogo</item>
+    </style>
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ShoppingList.BottomSheetDialog</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
+        <item name="paddingBottomSystemWindowInsets">false</item>
+        <item name="paddingTopSystemWindowInsets">false</item>
+    </style>
+
+    <style name="ShoppingList.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomDatePickerDialogStyle" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>                   <!--header background-->
+        <item name="android:windowBackground">@color/colorAccent</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/colorOrange</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/white</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/colorAccent</item>    <!--days of the week-->
+    </style>
+
+    <style name="customTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/sf_pro_medium</item>
+        <item name="android:fontWeight">500</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/primary_500</item>
+        <item name="colorSecondary">@color/primary_500</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="Body2Regular_13sp_greyScale200">
+        <item name="android:textColor">@color/grey_scale_200</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Regular_13sp_greyScale300">
+        <item name="android:textColor">@color/grey_scale_300</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Regular_14sp_textColor">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Body2Regular_13sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="TitleMedium_23sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+    <style name="TitleMedium_13sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Bold_13sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_display_bold</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Bold_16sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_display_bold</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Body1Medium_16sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Body1Regular_16sp_greyScale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Body2Regular_13sp_primary200">
+        <item name="android:textColor">@color/primary_200</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Regular_13sp_primary500">
+        <item name="android:textColor">@color/primary_500</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Body2Regular_16sp_grey_scale900">
+        <item name="android:textColor">@color/grey_scale_900</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="CustomMaterialCardView">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:minHeight">55dp</item>
+        <item name="strokeColor">@color/grey_scale_100</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="BottomCardRadiusViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
+    </style>
+
+
+    <style name="ShapeAppearanceOverlay_card_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">30dp</item>
+        <item name="cornerSizeBottomLeft">30dp</item>
+    </style>
+    <style name="BottomNavigationViewTextApperance"
+        parent="@android:style/TextAppearance.Medium">
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/grey_scale_200</item>
+    </style>
+    <style name="DatePickerDialog" parent="ThemeOverlay.AppCompat.Dialog" >
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorControlNormal">@color/grey_scale_50</item>
+        <item name="android:fontFamily">@font/sf_pro_medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+    <style name="DatePickerStyle" parent="android:Widget.DatePicker">
+        <item name="android:colorControlActivated">@color/primary_50</item>
+    </style>
+
+</resources>

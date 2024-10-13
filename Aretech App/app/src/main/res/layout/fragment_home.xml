@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                tools:itemCount="5"
+                tools:listitem="@layout/visit_status_list"
+                android:id="@+id/rv_visit_status"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="wrap_content"/>
+            <View
+                android:id="@+id/viewx"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/status_divider"/>
+        </LinearLayout>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/items_images_of_company"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_campaigns"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/items_images_of_company"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txv_saleandreturninfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="@string/items_operation"
+                            android:theme="@style/TitleMedium_23sp_greyScale900"
+                             />
+
+                        <RelativeLayout
+                            android:padding="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ProgressBar
+                                android:id="@+id/progress_saleandreturn"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:indeterminate="false"
+                                android:theme="@style/progressbar" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_saleandreturninfo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txv_cashonhand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/cash_operation"
+                            android:theme="@style/TitleMedium_23sp_greyScale900" />
+
+
+                        <RelativeLayout
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_marginVertical="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ProgressBar
+                                android:id="@+id/progress_cashonhand"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:indeterminate="false"
+                                android:theme="@style/progressbar" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_cashonhand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginEnd="10dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="0dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="@color/primary_50_50"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txv_otheroperation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/other_operation"
+                            android:theme="@style/TitleMedium_23sp_greyScale900" />
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ProgressBar
+                                android:id="@+id/progress_otheroperation"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:indeterminate="false"
+                                android:theme="@style/progressbar" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_otheroperation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="55dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <com.example.aretech.ui.fragments.bottom.home.views.PieChart3DView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:id="@+id/pie_chart_3d" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--    <com.github.mikephil.charting.charts.RadarChart-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+</LinearLayout>

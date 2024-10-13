@@ -1,0 +1,53 @@
+Index: app/src/main/res/values/attrs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/attrs.xml b/app/src/main/res/values/attrs.xml
+new file mode 100644
+--- /dev/null	(date 1726493754610)
++++ b/app/src/main/res/values/attrs.xml	(date 1726493754610)
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++
++    <declare-styleable name="ChipNavigationBar">
++        <attr name="cnb_menuResource" format="reference" />
++        <attr name="cnb_minExpandedWidth" format="dimension" />
++        <attr name="cnb_addBottomInset" format="boolean" />
++        <attr name="cnb_addTopInset" format="boolean" />
++        <attr name="cnb_addLeftInset" format="boolean" />
++        <attr name="cnb_addRightInset" format="boolean" />
++        <attr name="cnb_orientationMode">
++            <enum name="horizontal" value="0" />
++            <enum name="vertical" value="1" />
++        </attr>
++
++        <attr name="cnb_badgeColor" format="color" />
++        <attr name="cnb_unselectedColor" format="color" />
++        <attr name="cnb_radius" format="dimension" />
++        <attr name="cnb_textAppearance" format="reference" />
++        <attr name="cnb_iconSize" format="dimension" />
++        <attr name="cnb_animationDuration" format="integer" />
++    </declare-styleable>
++
++    <declare-styleable name="ChipMenuItem">
++        <attr name="android:id" />
++        <attr name="android:title" />
++        <attr name="android:icon" />
++        <attr name="android:enabled" />
++        <attr name="android:contentDescription" />
++        <attr name="cnb_iconColor" format="color" />
++        <attr name="cnb_iconTintMode">
++            <enum name="src_over" value="3" />
++            <enum name="src_in" value="5" />
++            <enum name="src_atop" value="9" />
++            <enum name="multiply" value="14" />
++            <enum name="screen" value="15" />
++        </attr>
++        <attr name="cnb_textColor" format="color" />
++        <attr name="cnb_backgroundColor" format="color" />
++    </declare-styleable>
++
++</resources>
+\ No newline at end of file

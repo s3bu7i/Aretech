@@ -1,0 +1,10 @@
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/open"
+        android:drawable="@drawable/ic_drawer_closed"
+        android:state_focused="true"/>
+
+    <item
+        android:id="@+id/closed"
+        android:drawable="@drawable/baseline_menu_24"/>
+</animated-selector>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/activityLogin">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.aretech.ui.fragments.bottom.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_checkScannerFragment"
+            app:destination="@id/checkScannerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_qrCodeScannerFragment"
+            app:destination="@id/qrCodeScannerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/operationFragment"
+        android:name="com.example.aretech.ui.fragments.bottom.operation.OperationFragment"
+        android:label="OperationFragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.aretech.ui.fragments.bottom.settings.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_activityLogin"
+            app:destination="@id/activityLogin"
+            app:popUpTo="@+id/home_nav"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityLogin"
+        android:name="com.example.aretech.ui.activities.login.ActivityLogin"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login">
+        <action
+            android:id="@+id/action_activityLogin_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="com.example.aretech.ui.activities.menu.qr_scanner.fragment.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" />
+    <fragment
+        android:id="@+id/checkScannerFragment"
+        android:name="com.example.aretech.ui.activities.menu.qr_scanner.fragment.QrCodeScannerFragment"
+        android:label="CheckScannerFragment" />
+    <fragment
+        android:id="@+id/checkResultFragment"
+        android:name="com.example.aretech.ui.activities.menu.check_result.fragment.CheckResultFragment"
+        android:label="CheckResultFragment" />
+    <fragment
+        android:id="@+id/fragmentNotification"
+        android:name="com.example.aretech.ui.activities.menu.notification.fragment.FragmentNotification"
+        android:label="FragmentNotification" />
+</navigation>
