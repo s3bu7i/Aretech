@@ -1,1 +1,0 @@
-import{j as s}from"./index-b9mOX-ty.js";import{h as t}from"./components-i7ntA2Le.js";import"./index-Cw6jCe4l.js";import"./index-DaFgVfeA.js";function n(){const r=t();return s.jsxs("ul",{children:["asdfjasdflkasd",JSON.stringify(r)]})}export{n as default};
